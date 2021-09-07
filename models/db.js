@@ -4,12 +4,12 @@ const mongoose = require("mongoose")
 console.log(process.env.PORT);
 
 
-connectionString = "mongodb+srv://<username>:<password>@cluster0.mrhom.mongodb.net/test"
+connectionString = "mongodb+srv://<username>:<password>@cluster0.mmbzx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 dbAddress = connectionString.replace("<username>",process.env.MONGO_USERNAME).replace("<password>",process.env.MONGO_PASSWORD)
   
 
 
-
+// mongodb+srv://admin:maahWvMowVZHPeCP@cluster0.mmbzx.mongodb.net/test
 console.log(dbAddress);
 
 mongoose.connect( dbAddress, {
