@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const LinkageSchema = new mongoose.Schema(
     {
+        userId: { type: mongoose.Schema.Types.ObjectId, required: true },
         firstName: { type: String, required: true },
         middleName: { type: String, required: true },
         lastName: { type: String, required: true },
@@ -36,6 +37,6 @@ const EventSchema = new mongoose.Schema(
 
 
 module.exports = {
-  Linkage: mongoose.model("Linkage", TaskSchema),
+  Linkage: mongoose.model("Linkage", LinkageSchema),
   Event: mongoose.model("Event", EventSchema),
 };
