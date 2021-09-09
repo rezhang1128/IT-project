@@ -1,8 +1,8 @@
-
-const linkageRouters = express.Router();
+const express = require("express");
+const router = express.Router();
 // connect to food controller -- we will use the food controller to update the
 // favourites list. 
-const linkageController = require('../controllers/linkageController.js')
+const linkageController = require('../controllers/linkageControllers.js')
 
 
 
@@ -14,4 +14,4 @@ const linkageController = require('../controllers/linkageController.js')
 
 
 
-module.exports = linkageRouters
+module.exports = router;
