@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const TaskSchema = new mongoose.Schema(
     {
+      userId: { type: mongoose.Schema.Types.ObjectId, required: true },
       name: { type: String, required: true },
       dateTime: { type: Date, required: true, default: Date.now },
       linkages: { type: [mongoose.Schema.Types.ObjectId], required: false },
