@@ -1,7 +1,7 @@
 require('dotenv').config()    // for database login details
 const mongoose = require("mongoose")
 
-console.log(process.env.PORT);
+// console.log(process.env.PORT);
 
 
 connectionString = "mongodb+srv://<username>:<password>@cluster0.mmbzx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
@@ -10,14 +10,14 @@ dbAddress = connectionString.replace("<username>",process.env.MONGO_USERNAME).re
 
 
 // mongodb+srv://admin:maahWvMowVZHPeCP@cluster0.mmbzx.mongodb.net/test
-console.log(dbAddress);
+// console.log(dbAddress);
 
 mongoose.connect( dbAddress, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
-  dbName: "FoodBuddy"
+  dbName: "Gestio"
 })
 
 const db = mongoose.connection

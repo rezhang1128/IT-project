@@ -14,9 +14,23 @@ app.get('/', (req,res) => {
     res.send("Hey");
 })
 
+
+require('./models/db.js') 
+
+// Routes
+const userRouter = require("./routes/userRouters");
+app.use("/user", userRouter);
+const linkageRouter = require("./routes/linkageRouters");
+app.use("/linkage", linkageRouter);
+const unionRouter = require("./routes/unionRouters");
+app.use("/union", unionRouter);
+
+
+
 app.get('/hello', (req,res) => {
     
     res.send("Hello");
+
 })
 
 
@@ -25,8 +39,10 @@ app.all('*', (req, res) => {  // 'default' route to catch user errors
 	res.send('error')
 })
 
+
 // start server and listen for HTTP requests
-app.listen(process.env.PORT || 5000, () => {
-    console.log("FoodBuddy app is listening ...")
+const port = process.env.PORT || 5000;
+app.listen(port, () => {
+    console.log(`App is listening on port ${port}!`)
   })
   
