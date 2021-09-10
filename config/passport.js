@@ -12,7 +12,7 @@ module.exports = function (passport) {
     });
 
 passport.deserializeUser(function(_id, done) {
-    Customer.findById(_id, function(err, user) {
+    Customer.findById(_id, function(err, user) { 
         done(err, user);
       });
     });
