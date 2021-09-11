@@ -5,6 +5,8 @@ const userController = require('../controllers/userControllers.js')
 
 router.get("/testing/addUser", userController.testingAddUsers);
 
+router.get("/:id", (req,res) => userController.getUser(req,res));
+
 
 
 
