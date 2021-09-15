@@ -46,7 +46,7 @@ app.use(express.static('public'))	// define where static assets live
 require('./models/db.js') 
 
 app.get('/',passport.authenticate('jwt', { session: false }), (req,res) => {
-    console.log(`post/${util.inspect(req.user,false,null)}`);
+    // console.log(`post/${util.inspect(req.user,false,null)}`);
     res.send("Hey");
 })
 

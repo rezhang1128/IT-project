@@ -6,7 +6,7 @@ const unionController = require('../controllers/unionControllers.js')
 
 
 
-
+router.get("/testing/addUnion", unionController.testingAddUnion);
 
 
 
