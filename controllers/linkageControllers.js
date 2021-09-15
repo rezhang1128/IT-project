@@ -21,6 +21,7 @@ const testingAddLinkages = async (req, res) => {
 //Controller 2
 const getAllLinkage = async (req, res) => {
     let linkages = await Linkage.find({userId: req.user._id}).lean();
+    console.log("linkages = "+ linkages)
     res.json(linkages)
 }
 
