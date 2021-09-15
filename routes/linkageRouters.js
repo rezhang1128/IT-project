@@ -11,7 +11,7 @@ const jwt = require('jsonwebtoken');
 router.get("/testing/addLinkages", linkageController.testingAddLinkages);
 
 
-router.get("/",passport.authenticate('jwt', { session: false }), (req,res) => linkageController.getAllLinkage);
+router.get("/",passport.authenticate('jwt', { session: false }), (req,res) => linkageController.getAllLinkage(req, res));
 
 
 
