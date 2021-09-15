@@ -17,7 +17,6 @@ const UsersSchema = new mongoose.Schema(
           contentType: String
       }
     },
-    { versionKey: false }
   );
 // // the method to generate hash password for new customer
 // CustomerSchema.methods.generateHash = function(password) {
@@ -28,7 +27,5 @@ const UsersSchema = new mongoose.Schema(
 // CustomerSchema.methods.validPassword = function(password) {
 //   return bcrypt.compareSync(password, this.password);
 // }
-
-module.exports = {
-  User: mongoose.model("User", UsersSchema),
-};
+const User = mongoose.model("User", UsersSchema);
+module.exports = {User};

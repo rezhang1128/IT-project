@@ -1,115 +1,95 @@
-const LocalStrategy = require("passport-local").Strategy;
-const bcrypt = require("bcrypt-nodejs");
-let ObjectId = require("mongoose").Types.ObjectId;
+require('dotenv').config()    // for JWT password key
 
-// our  model
-const { Customer } = require("../models/CustomerModels");
+// used to create our local strategy for authenticating
+// using username and password
+const LocalStrategy = require('passport-local').Strategy;
 
+// our user model
+const { User } = require('../models/userModels');
 
-module.exports = function (passport) {
-  passport.serializeUser(function(user, done) {
-    done(null, user);
+// the following is required if you wanted to use passport-jwt
+// JSON Web Tokens
+const passportJWT = require("passport-jwt");
+const JwtStrategy = passportJWT.Strategy;
+const ExtractJwt = passportJWT.ExtractJwt;
+
+module.exports = function(passport) {
+
+    // these two functions are used by passport to store information
+    // in and retrieve data from sessions. We are using user's object id
+    passport.serializeUser(function(user, done) {
+        done(null, user._id);
     });
 
-passport.deserializeUser(function(_id, done) {
-    Customer.findById(_id, function(err, user) { 
-        done(err, user);
-      });
+    passport.deserializeUser(function(_id, done) {
+        User.findById(_id, function(err, user) {
+            done(err, user);
+        });
     });
-  
-    // // ths passport strategy for customer login
-    passport.use('local-login', new LocalStrategy({
-      usernameField : 'email', 
-      passwordField : 'password',
-      passReqToCallback : true}, // pass the req as the first arg to the callback for verification 
-  function(req, email, password, done) {
-      // you can read more about the nextTick() function here: 
-      // https://nodejs.org/en/docs/guides/event-loop-timers-and-nexttick/
-      // we are using it because without it the User.findOne does not work,
-      // so it's part of the 'syntax'
-      process.nextTick(function() {
-          // see if the user with the email exists
-          Customer.findOne({ 'email' :  email }, function(err, user) {
-              // if there are errors, user is not found or password
-              // does match, send back errors
-              if (err){
-                console.log("err1");
-                return done(err);
-              }
-              if (!user){
-                console.log("err2");
-                return done(null, false, req.flash('loginMessage', 'No user found.'));
-              }
-              if (user.password!=password){
-                  // false in done() indicates to the strategy that authentication has
-                  // failed
-                  console.log("err3")
-                  return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'));
-              }
-              // otherwise, we put the user's email in the session
-              else {
-                  // in app.js, we have indicated that we will be using sessions
-                  // the server uses the included modules to create and manage
-                  // sessions. each client gets assigned a unique identifier and the
-                  // server uses that identifier to identify different clients
-                  // all this is handled by the session middleware that we are using 
-                  req.session.email = email; // for demonstration of using express-session
-                //   console.log("passport success")
-                  // done() is used by the strategy to set the authentication status with
-                  // details of the user who was authenticated
-                  return done(null, user, req.flash('loginMessage', 'Login successful'));
-              }
-          });
-      });
 
-  }));
+    // depending on what data you store in your token, setup a strategy
+    // to verify that the token is valid. This strategy is used to check
+    // that the client has a valid token
+    passport.use('jwt', new JwtStrategy({
+        jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), // clien puts token in request header
+        secretOrKey   : process.env.PASSPORT_KEY, // the key that was used to sign the token
+        passReqToCallback: true
+    }, (req, jwt_payload, done) => { // passport will but the decrypted token in jwt_payload variable
 
-  
-    // for signup
-    passport.use('local-customer-signup', new LocalStrategy({
-      usernameField : 'email',
-      passwordField : 'password',
-      passReqToCallback : true }, // pass the req as the first arg to the callback for verification 
-      
-   function(req, email, password, done) {             
-      process.nextTick( function() {
-          Customer.findOne({'email': email}, function(err, existingUser) {
-              // search a user by the username (email in our case)
-              // if user is not found or exists, exit with false indicating
-              // authentication failure
-              if (err) {
-                  console.log(err);
-                  return done(err);
-              }
-              if (existingUser) {
-                //   console.log("existing");
-                  return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
-              }
-              else {
-                  // otherwise
-                  // create a new user
-                  var newUser = new Customer();
-                  newUser.email = email;
-                  newUser.password = password;
-                  newUser.name = req.body.name;
-                  newUser.age = req.body.age;
-                  newUser.occupation = req.body.occupation;
-                  newUser.level = 0;
-                  newUser.energy = 6;
-                  
-                  // and save the user
-                  newUser.save(function(err) {
-                      if (err)
-                          throw err;
+        // here I'm simply searching for a user with the email addr
+        // that was added to the token. _id was added to the token
+        // body that was signed earlier in the userRouter.js file
+        // when logging in the user
+        console.log(jwt_payload.body._id)
+        User.findOne({'_id':jwt_payload.body._id}, (err, user) => {
 
-                      return done(null, newUser);
-                  });
+            if(err){
+                return done(err, false);
+            }
+            // if we found user, provide the user instance to passport    
+            if(user){
+                return done(null, user);
+            } else { // otherwise assign false to indicate that authentication failed
+                return done(null, false);
+            }
+        });
+    }));
 
-                  // put the user's email in the session so that it can now be used for all
-                  // communications between the client (browser) and the FoodBuddy app
-                  req.session.email=email;
-              }
-          });
-      });
-  }));
+    //Create a passport middleware to handle User login
+    // EXERCISE: Write the signup strategy
+
+    //Create a passport middleware to handle User login
+    passport.use('login', new LocalStrategy({
+        usernameField : 'email',     // get email and password
+        passwordField : 'password'
+        
+    }, async (email, password, done) => {
+        try {
+            //Find the user associated with the email provided by the user
+            await User.findOne({ 'email' :  email }, function(err, user) {
+                // if user is not found or there are other errors
+                if (err)
+                    return done(err);
+                if (!user)
+                    return done(null, false, {message: 'No user found.'});
+
+                // user is found but the password doesn't match
+                // if (!user.validPassword(password))
+                if (1!=1){
+                    return done(null, false, {message: 'Oops! Wrong password.'});
+                }
+                // everything is fine, provide user instance to passport
+                else {
+                    return done(null, user, {message: 'Login successful'});
+                }
+            });
+        } catch (error) {
+            return done(error);
+        }
+    }));
+
+
 };
+
+
+
