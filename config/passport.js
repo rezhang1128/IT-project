@@ -1,5 +1,5 @@
 require('dotenv').config()    // for JWT password key
-
+const util = require('util');
 // used to create our local strategy for authenticating
 // using username and password
 const LocalStrategy = require('passport-local').Strategy;
@@ -75,13 +75,52 @@ module.exports = function(passport) {
 
                 // user is found but the password doesn't match
                 // if (!user.validPassword(password))
-                if (1!=1){
+                if (!user.validPassword(password)){
                     return done(null, false, {message: 'Oops! Wrong password.'});
                 }
                 // everything is fine, provide user instance to passport
                 else {
                     return done(null, user, {message: 'Login successful'});
                 }
+            });
+        } catch (error) {
+            return done(error);
+        }
+    }));
+
+
+    passport.use('register', new LocalStrategy({
+        usernameField : 'email',     // get email and password
+        passwordField : 'password',
+        passReqToCallback: true
+    }, async (req, email, password, done) => {
+        try {
+            // console.log(`post/${util.inspect(req,false,null)}`);
+            // console.log(`post/${util.inspect(req.body,false,null)}`);
+            //Find the user associated with the email provided by the user
+            await User.findOne({ 'email' :  email }, function(err, user) {
+                // if user is not found or there are other errors
+                if (err){
+                    return done(err);
+                }
+                if (user){
+                    return done(null, false, {message: 'Existing User found.'});
+                }
+                else{
+                    var newUser = new User();
+                    newUser.email = email;
+                    newUser.password = newUser.generateHash(password);
+                    newUser.firstName = req.body.firstName;
+                    newUser.lastName = req.body.lastName;
+                    newUser.phoneNo = req.body.phoneNo;
+                    newUser.save(function (err) {
+                        if (err) throw err;
+        
+                        return done(null, newUser, {message: 'Login successful'});
+                      });
+                }
+
+                    
             });
         } catch (error) {
             return done(error);
