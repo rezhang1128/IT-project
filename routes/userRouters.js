@@ -10,6 +10,7 @@ const passport = require('passport');
 require('../config/passport')(passport);
 
 router.get("/testing/addUser", userController.testingAddUsers);
+// router.post("register", (req,res) => userController.testingRegister(req,res));
 
 router.get("/:id", (req,res) => userController.getUser(req,res));
 
@@ -59,10 +60,11 @@ router.post('/login', async (req, res, next) => {
     })(req, res, next);
     
 });
-// router.post('/login', async (req, res, next) => {
-//     console.log(`post/${util.inspect(req.body,false,null)}`);
 
-// })
+router.post('/register', async (req, res) => {
+    console.log(`post/${util.inspect(req.body,false,null)}`);
+
+})
 
 
 
