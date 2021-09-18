@@ -25,6 +25,9 @@ const getUser = async (req, res) => {
     }
 }
 
+// const testingRegister= async (req,res) => {
+//     console.log()
+// }
 
 module.exports = {
     testingAddUsers,
