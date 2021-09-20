@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-// const bcrypt = require('bcrypt-nodejs');
+const bcrypt = require('bcrypt-nodejs');
 
 // https://stackoverflow.com/questions/4796914/store-images-in-a-mongodb-database
 //https://www.geeksforgeeks.org/upload-and-retrieve-image-on-mongodb-using-mongoose/  the source for image upload, might be usefful later
@@ -19,13 +19,13 @@ const UsersSchema = new mongoose.Schema(
     },
   );
 // // the method to generate hash password for new customer
-// CustomerSchema.methods.generateHash = function(password) {
-//   return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
-// };
+UsersSchema.methods.generateHash = function(password) {
+  return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
+};
 
 // // the method to validate the password when customer sign in
-// CustomerSchema.methods.validPassword = function(password) {
-//   return bcrypt.compareSync(password, this.password);
-// }
+UsersSchema.methods.validPassword = function(password) {
+  return bcrypt.compareSync(password, this.password);
+}
 const User = mongoose.model("User", UsersSchema);
 module.exports = {User};
