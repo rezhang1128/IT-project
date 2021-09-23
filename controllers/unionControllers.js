@@ -1,5 +1,7 @@
 const UnionModel = require("../models/unionModels");
+
 const Union = UnionModel.Union;
+
 const mongoose = require("mongoose");
 let ObjectId = require("mongoose").Types.ObjectId;
 
@@ -30,6 +32,24 @@ const getAllUnion = async (req, res) => {
     res.json(unions);
 }
 
+
+
+
+const changeUnion = async (req, res) => {
+    let uniondetails = [];
+    await Union
+    .aggregate([
+        { $match: { _id: new ObjectId(`${req.params.id}`) } },
+    ]).then((data) => {
+        uniondetails = data;
+        // res.json(data);
+      })
+      .catch((error) => {
+        res.status(500).json({
+          error: error,
+        });
+      });
+}
 
 module.exports = {
     

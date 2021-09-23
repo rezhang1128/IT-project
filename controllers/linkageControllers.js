@@ -28,6 +28,7 @@ const getAllLinkage = async (req, res) => {
 
 
 
+
 module.exports = {
     testingAddLinkages,
     getAllLinkage
