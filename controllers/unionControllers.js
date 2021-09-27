@@ -16,20 +16,23 @@ const testingAddUnion = async (req, res) => {
 };
 
 const AddUnion = async (req, res) => {
-  var newUser = new Union();
-  newUser.userId = new ObjectId(`${req.user._id}`);
-  newUser.name = req.body.name;
-  newUser.linkages = [];
-  newUser.save();
-  console.log(newUser);
-  res.send(newUser);
-};
+    // console.log("req.body = ",req.body);
+    // console.log("req.file = ",req.file);
+    
+    var newUser = new Union();
+    newUser.userId =  new ObjectId(`${req.user._id}`);
+    newUser.name = req.body.name;
+    newUser.linkages = [];
+    // console.log("profilepic = "+JSON.stringify(req.body));
+    if (req.file){
+      newUser.profilePic = req.file.path;
 
-const getAllUnion = async (req, res) => {
-  let unions = await Union.find({ userId: req.user._id }).lean();
-  console.log("unions = " + unions);
-  res.json(unions);
-};
+    }
+    newUser.save();
+    console.log("newUser = ",newUser);
+    res.send(newUser)
+  
+  }
 
 //Controller 2
 const getAllUnion = async (req, res) => {
@@ -38,11 +41,6 @@ const getAllUnion = async (req, res) => {
   res.json(Unions);
 };
 
-module.exports = {
-  testingAddUnion,
-  AddUnion,
-  getAllUnion,
-};
 const changeUnion = async (req, res) => {
     try{
        await Union.findOneAndUpdate({_id: req.body._id},{name: req.body.name, linkages: req.body.linkages},(error,data)=>{

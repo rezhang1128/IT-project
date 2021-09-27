@@ -6,11 +6,8 @@ const UnionSchema = new mongoose.Schema(
       userId: { type: mongoose.Schema.Types.ObjectId, required: true },
       name: { type: String, required: true },
       linkages: { type: [mongoose.Schema.Types.ObjectId], required: true },
-      profilePic:
-      {
-          data: Buffer,
-          contentType: String
-      }
+      profilePic: { type: String, required: true, default:"uploads/UnionLogo.png"},
+
     },
     { versionKey: false }
   );

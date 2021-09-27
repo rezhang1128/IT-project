@@ -23,14 +23,7 @@ const getAllLinkage = async (req, res) => {
   res.json(linkages);
 };
 
-module.exports = {
-  testingAddLinkages,
-  getAllLinkage,
-};
-    let linkages = await Linkage.find({userId: req.user._id}).lean();
-    console.log("linkages = "+ linkages)
-    res.json(linkages)
-}
+
 
 const addLinkage = async (req, res) => {
     var newUser = new Linkage();

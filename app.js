@@ -42,6 +42,7 @@ app.use(flash());
 app.use(express.json())
 app.use(express.urlencoded({ extended: false })) // replaces body-parser
 app.use(express.static('public'))	// define where static assets live
+app.use('/uploads', express.static('uploads'))
 
 require('./models/db.js') 
 
