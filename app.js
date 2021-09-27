@@ -60,12 +60,6 @@ app.use("/linkage", linkageRouter);
 const unionRouter = require("./routes/unionRouters");
 app.use("/union", unionRouter);
 
-
-
-app.get('/hello', (req,res) => {
-    res.send("Hello");
-
-})
  
 
 app.all('*', (req, res) => {  // 'default' route to catch user errors

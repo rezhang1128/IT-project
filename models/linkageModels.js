@@ -4,14 +4,15 @@ const LinkageSchema = new mongoose.Schema(
     {
         userId: { type: mongoose.Schema.Types.ObjectId, required: true },
         firstName: { type: String, required: true },
-        middleName: { type: String, required: true },
+        middleName: { type: String, required: false },
         lastName: { type: String, required: true },
-        email: { type: [String], required: true},
-        address: { type: String, required: true },
+        email: { type: String, required: false},
+        phoneNumber: { type: String, required: false},
+        address: { type: String, required: false },
         linkedSince: {type: Date, required: true, default: Date.now},
         lastConnection: {type: Date, required: true, default: Date.now},
         contactGoals: String,
-        note: String,
+        note: { type: String, required: false },
         events: { type: [mongoose.Schema.Types.ObjectId], required: false },
         profilePic:
         {

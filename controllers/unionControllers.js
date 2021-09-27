@@ -32,27 +32,37 @@ const getAllUnion = async (req, res) => {
     res.json(unions);
 }
 
-
-
-
 const changeUnion = async (req, res) => {
-    let uniondetails = [];
-    await Union
-    .aggregate([
-        { $match: { _id: new ObjectId(`${req.params.id}`) } },
-    ]).then((data) => {
-        uniondetails = data;
-        // res.json(data);
-      })
-      .catch((error) => {
-        res.status(500).json({
-          error: error,
-        });
-      });
+    try{
+       await Union.findOneAndUpdate({_id: req.body._id},{name: req.body.name, linkages: req.body.linkages},(error,data)=>{
+            if(!error){
+                console.log("change union success");    
+            }
+            
+            });     
+    }catch(error){
+
+    }
+    
 }
 
-module.exports = {
+const deleteUnion = async (req, res) => {
+    try{
+            await Union.findOneAndRemove({_id: req.body._id},(error,deletedRecord)=>{
+                    console.log("delete union success");          
+            })
+    }catch(error){
+
+    }
     
+}
+
+
+
+
+module.exports = {
+    changeUnion,
+    deleteUnion,
     testingAddUnion,
     AddUnion,
     getAllUnion
