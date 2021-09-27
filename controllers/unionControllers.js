@@ -1,5 +1,7 @@
 const UnionModel = require("../models/unionModels");
+
 const Union = UnionModel.Union;
+
 const mongoose = require("mongoose");
 let ObjectId = require("mongoose").Types.ObjectId;
 
@@ -40,4 +42,39 @@ module.exports = {
   testingAddUnion,
   AddUnion,
   getAllUnion,
+};
+const changeUnion = async (req, res) => {
+    try{
+       await Union.findOneAndUpdate({_id: req.body._id},{name: req.body.name, linkages: req.body.linkages},(error,data)=>{
+            if(!error){
+                console.log("change union success");    
+            }
+            
+            });     
+    }catch(error){
+
+    }
+    
+}
+
+const deleteUnion = async (req, res) => {
+    try{
+            await Union.findOneAndRemove({_id: req.body._id},(error,deletedRecord)=>{
+                    console.log("delete union success");          
+            })
+    }catch(error){
+
+    }
+    
+}
+
+
+
+
+module.exports = {
+    changeUnion,
+    deleteUnion,
+    testingAddUnion,
+    AddUnion,
+    getAllUnion
 };

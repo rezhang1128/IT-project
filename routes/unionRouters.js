@@ -13,8 +13,12 @@ router.get("/", passport.authenticate("jwt", { session: false }), (req, res) =>
   unionController.getAllUnion(req, res)
 );
 
-router.post("/", passport.authenticate("jwt", { session: false }), (req, res) =>
-  unionController.AddUnion(req, res)
-);
+router.get("/",passport.authenticate('jwt', { session: false }), (req,res) => unionController.getAllUnion(req, res));
+
+router.post("/",passport.authenticate('jwt', { session: false }), (req,res) => unionController.AddUnion(req, res));
+
+router.post("/:unionID/change",passport.authenticate('jwt', { session: false }), (req,res) => unionController.changeUnion(req, res));
+
+router.post("/:unionID/remove",passport.authenticate('jwt', { session: false }), (req,res) => unionController.deleteUnion(req, res));
 
 module.exports = router;
