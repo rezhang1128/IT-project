@@ -1,7 +1,7 @@
 const UnionModel = require("../models/unionModels");
-
+const LinkageModel = require("../models/linkageModels");
 const Union = UnionModel.Union;
-
+const Linkage = LinkageModel.Linkage;
 const mongoose = require("mongoose");
 let ObjectId = require("mongoose").Types.ObjectId;
 
@@ -29,17 +29,28 @@ const AddUnion = async (req, res) => {
 
     }
     newUser.save();
-    console.log("newUser = ",newUser);
+    // console.log("newUser = ",newUser);
     res.send(newUser)
   
   }
 
 //Controller 2
 const getAllUnion = async (req, res) => {
-  let Unions = await Union.find({ userId: req.user._id }).lean();
-  console.log("Unions = " + Unions);
-  res.json(Unions);
-};
+  await Union.aggregate([
+        { $match: { userId: req.user._id} },
+        {
+          $lookup: {
+            from: "linkages",
+            localField: "linkages",
+            foreignField: "_id",
+            as: "linkages_info",
+          },
+        },
+            ]).then( (data) => {
+            console.log("Unions = "+ JSON.stringify(data));
+            res.json(data);
+            })
+          }
 
 const changeUnion = async (req, res) => {
     try{
