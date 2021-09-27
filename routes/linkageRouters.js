@@ -10,13 +10,13 @@ const jwt = require('jsonwebtoken');
 
 router.get("/testing/addLinkages", linkageController.testingAddLinkages);
 
+router.post("/change",passport.authenticate('jwt', { session: false }), (req,res) => linkageController.changeLinkage(req, res));
+
+router.post("/remove",passport.authenticate('jwt', { session: false }), (req,res) => linkageController.deleteLinkage(req, res));
+
+router.post("/",passport.authenticate('jwt', { session: false }), (req,res) => linkageController.addLinkage(req, res));
 
 router.get("/",passport.authenticate('jwt', { session: false }), (req,res) => linkageController.getAllLinkage(req, res));
-
-
-
-
-
 
 
 
