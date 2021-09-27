@@ -26,6 +26,17 @@
         "design",
         "bug"
       ]
+    },
+    {
+      "login": "jiahern",
+      "name": "jiahern",
+      "avatar_url": "https://avatars.githubusercontent.com/u/61899536?v=4",
+      "profile": "https://github.com/jiahern",
+      "contributions": [
+        "code",
+        "design",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
