@@ -1,0 +1,26 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "rezhang1128",
+      "name": "rezhang1128",
+      "avatar_url": "https://avatars.githubusercontent.com/u/82085953?v=4",
+      "profile": "https://github.com/rezhang1128",
+      "contributions": [
+        "code",
+        "design",
+        "bug"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "IT-project",
+  "projectOwner": "rezhang1128",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
