@@ -16,74 +16,69 @@ const testingAddUnion = async (req, res) => {
 };
 
 const AddUnion = async (req, res) => {
-    // console.log("req.body = ",req.body);
-    // console.log("req.file = ",req.file);
-    
-    var newUser = new Union();
-    newUser.userId =  new ObjectId(`${req.user._id}`);
-    newUser.name = req.body.name;
-    newUser.linkages = [];
-    // console.log("profilepic = "+JSON.stringify(req.body));
-    if (req.file){
-      newUser.profilePic = req.file.path;
+  // console.log("req.body = ",req.body);
+  // console.log("req.file = ",req.file);
 
-    }
-    newUser.save();
-    // console.log("newUser = ",newUser);
-    res.send(newUser)
-  
+  var newUser = new Union();
+  newUser.userId = new ObjectId(`${req.user._id}`);
+  newUser.name = req.body.name;
+  newUser.linkages = [];
+  // console.log("profilepic = "+JSON.stringify(req.body));
+  if (req.file) {
+    newUser.profilePic = req.file.path;
   }
+  newUser.save();
+  // console.log("newUser = ",newUser);
+  res.send(newUser);
+};
 
 //Controller 2
 const getAllUnion = async (req, res) => {
   await Union.aggregate([
-        { $match: { userId: req.user._id} },
-        {
-          $lookup: {
-            from: "linkages",
-            localField: "linkages",
-            foreignField: "_id",
-            as: "linkages_info",
-          },
-        },
-            ]).then( (data) => {
-            console.log("Unions = "+ JSON.stringify(data));
-            res.json(data);
-            })
-          }
+    { $match: { userId: req.user._id } },
+    {
+      $lookup: {
+        from: "linkages",
+        localField: "linkages",
+        foreignField: "_id",
+        as: "linkages_info",
+      },
+    },
+  ]).then((data) => {
+    console.log("Unions = " + JSON.stringify(data));
+    res.json(data);
+  });
+};
 
 const changeUnion = async (req, res) => {
-    try{
-       await Union.findOneAndUpdate({_id: req.body._id},{name: req.body.name, linkages: req.body.linkages},(error,data)=>{
-            if(!error){
-                console.log("change union success");    
-            }
-            
-            });     
-    }catch(error){
-
-    }
-    
-}
+  try {
+    await Union.findOneAndUpdate(
+      { _id: req.body._id },
+      { name: req.body.name, linkages: req.body.linkages },
+      (error, data) => {
+        if (!error) {
+          console.log("change union success");
+        }
+      }
+    );
+  } catch (error) {}
+};
 
 const deleteUnion = async (req, res) => {
-    try{
-            await Union.findOneAndRemove({_id: req.body._id},(error,deletedRecord)=>{
-                    console.log("delete union success");          
-            })
-    }catch(error){
-
-    }
-    
-}
-
-
-
+  try {
+    await Union.findOneAndRemove(
+      { _id: req.body._id },
+      (error, deletedRecord) => {
+        console.log("delete union success");
+      }
+    );
+  } catch (error) {}
+};
 
 module.exports = {
-    changeUnion,
-    deleteUnion,
-    testingAddUnion,
-    AddUnion,
-    getAllUnion
+  changeUnion,
+  deleteUnion,
+  testingAddUnion,
+  AddUnion,
+  getAllUnion,
 };
