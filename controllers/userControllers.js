@@ -31,6 +31,7 @@ const testingAddUsers = async (req, res) => {
 const getUserProfile = async (req, res) => {
   let userProfile = await User.find({ _id: req.user._id }).lean();
   //   console.log("userProfile = " + userProfile);
+  // console.log("userProfile = ",JSON.stringify(userProfile));
   res.json(userProfile);
 };
 
