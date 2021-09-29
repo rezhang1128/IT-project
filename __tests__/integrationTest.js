@@ -2,6 +2,11 @@ const request = require('supertest');
 
 
 const app = require('../app');
+describe("getting started with JEST", () => {
+    test("this is just a JEST", () => {
+        expect(123).toEqual(123);
+    });
+}); 
 // describe("getting started with JEST", () => {
 //    // we need to use request.agent so that we can create and
 //     // use sessions
