@@ -4,7 +4,7 @@ const Union = UnionModel.Union;
 const Linkage = LinkageModel.Linkage;
 const mongoose = require("mongoose");
 let ObjectId = require("mongoose").Types.ObjectId;
-const fs = require('fs')
+const fs = require("fs");
 
 const testingAddUnion = async (req, res) => {
   var newUser = new Union();
@@ -67,7 +67,7 @@ const changeUnion = async (req, res) => {
 
 const deleteUnion = async (req, res) => {
   try {
-    console.log("req.body.profilePic = "+req.body.profilePic );
+    console.log("req.body.profilePic = " + req.body.profilePic);
     await Union.findOneAndRemove(
       { _id: req.body._id },
       (error, deletedRecord) => {
@@ -80,7 +80,7 @@ const deleteUnion = async (req, res) => {
     //     //file removed
     //   } catch(err) {
     //     console.error(err)
-    //   }      
+    //   }
     // }
   } catch (error) {}
 };

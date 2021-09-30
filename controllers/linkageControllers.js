@@ -31,10 +31,25 @@ const addLinkage = async (req, res) => {
   newUser.lastName = req.body.lastName;
   newUser.email = req.body.email;
   newUser.address = req.body.address;
+  newUser.phoneNumber = req.body.phoneNumber;
   newUser.note = req.body.note;
   newUser.save();
   console.log(newUser);
   res.send(newUser);
+};
+
+const changeUnion = async (req, res) => {
+  try {
+    await Union.findOneAndUpdate(
+      { _id: req.body._id },
+      { name: req.body.name, linkages: req.body.linkages },
+      (error, data) => {
+        if (!error) {
+          console.log("change union success");
+        }
+      }
+    );
+  } catch (error) {}
 };
 
 const changeLinkage = async (req, res) => {
@@ -42,20 +57,17 @@ const changeLinkage = async (req, res) => {
     await Linkage.findOneAndUpdate(
       { _id: req.body._id },
       {
-        $set: {
-          firstName: req.body.firstName,
-          middleName: req.body.middleName,
-          lastName: req.body.lastName,
-          email: req.body.email,
-          address: req.body.address,
-          note: req.body.note,
-          phoneNumber: req.body.phoneNumber,
-        },
+        firstName: req.body.firstName,
+        middleName: req.body.middleName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        address: req.body.address,
+        note: req.body.note,
+        phoneNumber: req.body.phoneNumber,
       },
-      { new: true, omitUndefined: true },
       (error, data) => {
         if (!error) {
-          console.log(firstName);
+          // console.log(firstName);
           console.log("change linkage success");
         }
       }
@@ -68,7 +80,7 @@ const deleteLinkage = async (req, res) => {
     await Linkage.findOneAndRemove(
       { _id: req.body._id },
       (error, deletedRecord) => {
-        console.log("delete union success");
+        console.log("delete linkage success");
       }
     );
   } catch (error) {}
