@@ -9,7 +9,7 @@ const { deserializeUser } = require("passport");
 const passport = require("passport");
 require("../config/passport")(passport);
 
-router.get("/testing/addUser", userController.testingAddUsers);
+// router.get("/testing/addUser", userController.testingAddUsers);
 // router.post("register", (req,res) => userController.testingRegister(req,res));
 
 // router.get("/:id", (req, res) => userController.getUser(req, res));
