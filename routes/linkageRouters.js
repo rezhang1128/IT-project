@@ -3,7 +3,7 @@ const router = express.Router();
 
 const linkageController = require("../controllers/linkageControllers.js");
 const passport = require("passport");
-require("../config/passport")(passport);
+require("../config/passport")(passport); 
 const jwt = require("jsonwebtoken");
 
 router.get("/testing/addLinkages", linkageController.testingAddLinkages);

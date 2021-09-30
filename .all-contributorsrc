@@ -1,0 +1,59 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "rezhang1128",
+      "name": "rezhang1128",
+      "avatar_url": "https://avatars.githubusercontent.com/u/82085953?v=4",
+      "profile": "https://github.com/rezhang1128",
+      "contributions": [
+        "code",
+        "design",
+        "bug"
+      ]
+    },
+    {
+      "login": "chais09",
+      "name": "chais09",
+      "avatar_url": "https://avatars.githubusercontent.com/u/55682227?v=4",
+      "profile": "https://chais09.github.io",
+      "contributions": [
+        "code",
+        "design",
+        "bug"
+      ]
+    },
+    {
+      "login": "jiahern",
+      "name": "jiahern",
+      "avatar_url": "https://avatars.githubusercontent.com/u/61899536?v=4",
+      "profile": "https://github.com/jiahern",
+      "contributions": [
+        "code",
+        "design",
+        "bug"
+      ]
+    },
+    {
+      "login": "allanz0303",
+      "name": "Jingwei",
+      "avatar_url": "https://avatars.githubusercontent.com/u/77386438?v=4",
+      "profile": "https://github.com/allanz0303",
+      "contributions": [
+        "code",
+        "design",
+        "bug"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "IT-project",
+  "projectOwner": "rezhang1128",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
