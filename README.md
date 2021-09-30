@@ -141,9 +141,9 @@ Launches the test runner in the interactive watch mode.
 ## 7.0 Release History
 v1.0.0  Feature development from user story ID 1.Finish navbar function, can acess all exist page.
 
-v1.0.0  Feature development from user story ID 10.Finish login function, can login with right account name and password.
+v1.0.0  Feature development from user story ID 9.Finish login function, can login with right account name and password.
 
-v1.0.0  Feature development from user story ID 10.Finish navbar function, can regist with account name and password.
+v1.0.0  Feature development from user story ID 9.Finish navbar function, can regist with account name and password.
 
 v1.0.0  Feature development from user story ID 5.Finish union create function, can create new union.
 
