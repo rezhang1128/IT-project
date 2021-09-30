@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 let ObjectId = require("mongoose").Types.ObjectId;
 
 //Controller 1
+// the testing controller for creating the first linkage in the database
 const testingAddLinkages = async (req, res) => {
   var newUser = new Linkage();
   newUser.userId = new ObjectId("6139e1cd8e40774fd8ac61ba");
@@ -13,16 +14,19 @@ const testingAddLinkages = async (req, res) => {
   newUser.email = "aliceWonderland@test.com";
   newUser.address = "address 1, address 2";
   newUser.save();
-  console.log(newUser);
+  // console.log(newUser);
   res.send(newUser);
 };
-//Controller 2
+
+
+// Get all the linkages of the user
 const getAllLinkage = async (req, res) => {
   let linkages = await Linkage.find({ userId: req.user._id }).lean();
-  console.log("linkages = " + linkages);
+  // console.log("linkages = " + linkages);
   res.json(linkages);
 };
 
+// add the linkage into database
 const addLinkage = async (req, res) => {
   var newUser = new Linkage();
   newUser.userId = new ObjectId(`${req.user._id}`);
@@ -33,10 +37,11 @@ const addLinkage = async (req, res) => {
   newUser.address = req.body.address;
   newUser.note = req.body.note;
   newUser.save();
-  console.log(newUser);
+  // console.log(newUser);
   res.send(newUser);
 };
 
+// update linkage
 const changeLinkage = async (req, res) => {
   try {
     await Linkage.findOneAndUpdate(
@@ -44,23 +49,26 @@ const changeLinkage = async (req, res) => {
       { name: req.body.name, linkages: req.body.linkages },
       (error, data) => {
         if (!error) {
-          console.log("change union success");
+          // console.log("change linkage success");
         }
       }
     );
   } catch (error) {}
 };
 
+// delete the linkage 
 const deleteLinkage = async (req, res) => {
   try {
     await Linkage.findOneAndRemove(
       { _id: req.body._id },
       (error, deletedRecord) => {
-        console.log("delete union success");
+        // console.log("delete union success");
       }
     );
   } catch (error) {}
 };
+
+
 
 module.exports = {
   addLinkage,

@@ -6,21 +6,22 @@ const mongoose = require("mongoose");
 let ObjectId = require("mongoose").Types.ObjectId;
 const fs = require('fs')
 
+// the testing controller for creating the first union in the database
 const testingAddUnion = async (req, res) => {
   var newUser = new Union();
   newUser.userId = new ObjectId("6139e1cd8e40774fd8ac61ba");
   newUser.name = "Alice";
   newUser.linkages = [];
   newUser.save();
-  console.log(newUser);
+  // console.log(newUser);
   res.send(newUser);
 };
 
-const AddUnion = async (req, res) => {
-  // console.log("req.body = ",req.body);
-  // console.log("req.file = ",req.file);
 
+// add union into database
+const AddUnion = async (req, res) => {
   var newUser = new Union();
+  console.log("unionImage = ,", req.file);
   newUser.userId = new ObjectId(`${req.user._id}`);
   newUser.name = req.body.name;
   newUser.linkages = [];
@@ -28,12 +29,15 @@ const AddUnion = async (req, res) => {
   if (req.file) {
     newUser.profilePic = req.file.path;
   }
+  else{
+    newUser.profilePic = "uploads/UnionLogo.png";
+  }
   newUser.save();
   // console.log("newUser = ",newUser);
   res.send(newUser);
 };
 
-//Controller 2
+//get all the union and linkages of the users
 const getAllUnion = async (req, res) => {
   await Union.aggregate([
     { $match: { userId: req.user._id } },
@@ -46,11 +50,13 @@ const getAllUnion = async (req, res) => {
       },
     },
   ]).then((data) => {
-    console.log("Unions = " + JSON.stringify(data));
+    // console.log("Unions = " + JSON.stringify(data));
     res.json(data);
   });
 };
 
+
+// update union information
 const changeUnion = async (req, res) => {
   try {
     await Union.findOneAndUpdate(
@@ -58,13 +64,14 @@ const changeUnion = async (req, res) => {
       { name: req.body.name, linkages: req.body.linkages },
       (error, data) => {
         if (!error) {
-          console.log("change union success");
+          // console.log("change union success");
         }
       }
     );
   } catch (error) {}
 };
 
+// delete a union 
 const deleteUnion = async (req, res) => {
   try {
     console.log("req.body.profilePic = "+req.body.profilePic );
@@ -74,14 +81,14 @@ const deleteUnion = async (req, res) => {
         console.log("delete union success");
       }
     );
-    // if (req.body.profilePic != "uploads/UnionLogo.png"){
-    //   try {
-    //     fs.unlinkSync(req.body.profilePic)
-    //     //file removed
-    //   } catch(err) {
-    //     console.error(err)
-    //   }      
-    // }
+    if (req.body.profilePic != "uploads/UnionLogo.png"){
+      try {
+        fs.unlinkSync(req.body.profilePic)
+        //file removed
+      } catch(err) {
+        console.error(err)
+      }      
+    }
   } catch (error) {}
 };
 
