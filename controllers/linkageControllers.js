@@ -39,17 +39,29 @@ const addLinkage = async (req, res) => {
   newUser.save();
   // console.log(newUser);
   res.send(newUser);
-};
+}; 
 
 // update linkage
 const changeLinkage = async (req, res) => {
   try {
     await Linkage.findOneAndUpdate(
       { _id: req.body._id },
-      { name: req.body.name, linkages: req.body.linkages },
+      {
+        $set: {
+          firstName: req.body.firstName,
+          middleName: req.body.middleName,
+          lastName: req.body.lastName,
+          email: req.body.email,
+          address: req.body.address,
+          note: req.body.note,
+          phoneNumber: req.body.phoneNumber,
+        },
+      },
+      { new: true, omitUndefined: true },
       (error, data) => {
         if (!error) {
-          // console.log("change linkage success");
+          console.log(firstName);
+          console.log("change linkage success");
         }
       }
     );
