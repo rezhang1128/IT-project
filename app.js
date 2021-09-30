@@ -2,11 +2,9 @@
 const express = require('express')
 const app = express()
 const util = require('util');
-
-// YOU NEED TO INSTALL CORS: npm install cors
 const cors = require('cors')
 
-// modules for authentication lectures
+
 const passport = require('passport');
 const flash    = require('connect-flash-plus');
 const session      = require('express-session');
@@ -22,7 +20,7 @@ require('./config/passport')(passport);
 // IMPORTANT to enable CORS -- see  Week 7 lectures
 app.use(cors({
 credentials: true, // from Express docs: adds the Access-Control-Allow-Credentials CORS header
-origin: "http://localhost:3000" // or your heroku url
+origin: "http://localhost:3000" 
 }));
 
 
