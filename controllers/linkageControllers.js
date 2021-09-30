@@ -1,0 +1,99 @@
+const LinkageModel = require("../models/linkageModels");
+const Linkage = LinkageModel.Linkage;
+const mongoose = require("mongoose");
+let ObjectId = require("mongoose").Types.ObjectId;
+
+//Controller 1
+// the testing controller for creating the first linkage in the database
+const testingAddLinkages = async (req, res) => {
+  var newUser = new Linkage();
+  newUser.userId = new ObjectId("6139e1cd8e40774fd8ac61ba");
+  newUser.firstName = "Alice";
+  newUser.middleName = "InThe";
+  newUser.lastName = "Wonderland";
+  newUser.email = "aliceWonderland@test.com";
+  newUser.address = "address 1, address 2";
+  newUser.save();
+  // console.log(newUser);
+  res.send(newUser);
+};
+
+// Get all the linkages of the user
+const getAllLinkage = async (req, res) => {
+  let linkages = await Linkage.find({ userId: req.user._id }).lean();
+  // console.log("linkages = " + linkages);
+  res.json(linkages);
+};
+
+// add the linkage into database
+const addLinkage = async (req, res) => {
+  var newUser = new Linkage();
+  newUser.userId = new ObjectId(`${req.user._id}`);
+  newUser.firstName = req.body.firstName;
+  newUser.middleName = req.body.middleName;
+  newUser.lastName = req.body.lastName;
+  newUser.email = req.body.email;
+  newUser.address = req.body.address;
+  newUser.phoneNumber = req.body.phoneNumber;
+  newUser.note = req.body.note;
+  newUser.save();
+  // console.log(newUser);
+  res.send(newUser);
+};
+
+const changeUnion = async (req, res) => {
+  try {
+    await Union.findOneAndUpdate(
+      { _id: req.body._id },
+      { name: req.body.name, linkages: req.body.linkages },
+      (error, data) => {
+        if (!error) {
+          console.log("change union success");
+        }
+      }
+    );
+  } catch (error) {}
+};
+
+const changeLinkage = async (req, res) => {
+  try {
+    await Linkage.findOneAndUpdate(
+      { _id: req.body._id },
+      {
+        firstName: req.body.firstName,
+        middleName: req.body.middleName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        address: req.body.address,
+        note: req.body.note,
+        phoneNumber: req.body.phoneNumber,
+      },
+      (error, data) => {
+        if (!error) {
+          // console.log(firstName);
+          console.log("change linkage success");
+        }
+      }
+    );
+  } catch (error) {}
+};
+
+// delete the linkage
+const deleteLinkage = async (req, res) => {
+  try {
+    await Linkage.findOneAndRemove(
+      { _id: req.body._id },
+      (error, deletedRecord) => {
+        console.log("delete linkage success");
+      }
+    );
+  } catch (error) {}
+};
+
+module.exports = {
+  addLinkage,
+  changeLinkage,
+  deleteLinkage,
+  testingAddLinkages,
+  getAllLinkage,
+};
