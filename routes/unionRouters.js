@@ -50,10 +50,6 @@ router.get("/", passport.authenticate("jwt", { session: false }), (req, res) =>
   unionController.getAllUnion(req, res)
 );
 
-router.get("/", passport.authenticate("jwt", { session: false }), (req, res) =>
-  unionController.getAllUnion(req, res)
-);
-
 router.post(
   "/",
   passport.authenticate("jwt", { session: false }),

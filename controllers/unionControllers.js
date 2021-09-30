@@ -4,7 +4,7 @@ const Union = UnionModel.Union;
 const Linkage = LinkageModel.Linkage;
 const mongoose = require("mongoose");
 let ObjectId = require("mongoose").Types.ObjectId;
-const fs = require('fs')
+const fs = require("fs");
 
 // the testing controller for creating the first union in the database
 const testingAddUnion = async (req, res) => {
@@ -17,7 +17,6 @@ const testingAddUnion = async (req, res) => {
   res.send(newUser);
 };
 
-
 // add union into database
 const AddUnion = async (req, res) => {
   var newUser = new Union();
@@ -28,8 +27,7 @@ const AddUnion = async (req, res) => {
   // console.log("profilepic = "+JSON.stringify(req.body));
   if (req.file) {
     newUser.profilePic = req.file.path;
-  }
-  else{
+  } else {
     newUser.profilePic = "uploads/UnionLogo.png";
   }
   newUser.save();
@@ -55,7 +53,6 @@ const getAllUnion = async (req, res) => {
   });
 };
 
-
 // update union information
 const changeUnion = async (req, res) => {
   try {
@@ -71,23 +68,23 @@ const changeUnion = async (req, res) => {
   } catch (error) {}
 };
 
-// delete a union 
+// delete a union
 const deleteUnion = async (req, res) => {
   try {
-    console.log("req.body.profilePic = "+req.body.profilePic );
+    console.log("req.body.profilePic = " + req.body.profilePic);
     await Union.findOneAndRemove(
       { _id: req.body._id },
       (error, deletedRecord) => {
         console.log("delete union success");
       }
     );
-    if (req.body.profilePic != "uploads/UnionLogo.png"){
+    if (req.body.profilePic != "uploads/UnionLogo.png") {
       try {
-        fs.unlinkSync(req.body.profilePic)
+        fs.unlinkSync(req.body.profilePic);
         //file removed
-      } catch(err) {
-        console.error(err)
-      }      
+      } catch (err) {
+        console.error(err);
+      }
     }
   } catch (error) {}
 };

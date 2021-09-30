@@ -18,7 +18,6 @@ const testingAddLinkages = async (req, res) => {
   res.send(newUser);
 };
 
-
 // Get all the linkages of the user
 const getAllLinkage = async (req, res) => {
   let linkages = await Linkage.find({ userId: req.user._id }).lean();
@@ -35,32 +34,43 @@ const addLinkage = async (req, res) => {
   newUser.lastName = req.body.lastName;
   newUser.email = req.body.email;
   newUser.address = req.body.address;
+  newUser.phoneNumber = req.body.phoneNumber;
   newUser.note = req.body.note;
   newUser.save();
   // console.log(newUser);
   res.send(newUser);
-}; 
+};
 
-// update linkage
+const changeUnion = async (req, res) => {
+  try {
+    await Union.findOneAndUpdate(
+      { _id: req.body._id },
+      { name: req.body.name, linkages: req.body.linkages },
+      (error, data) => {
+        if (!error) {
+          console.log("change union success");
+        }
+      }
+    );
+  } catch (error) {}
+};
+
 const changeLinkage = async (req, res) => {
   try {
     await Linkage.findOneAndUpdate(
       { _id: req.body._id },
       {
-        $set: {
-          firstName: req.body.firstName,
-          middleName: req.body.middleName,
-          lastName: req.body.lastName,
-          email: req.body.email,
-          address: req.body.address,
-          note: req.body.note,
-          phoneNumber: req.body.phoneNumber,
-        },
+        firstName: req.body.firstName,
+        middleName: req.body.middleName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        address: req.body.address,
+        note: req.body.note,
+        phoneNumber: req.body.phoneNumber,
       },
-      { new: true, omitUndefined: true },
       (error, data) => {
         if (!error) {
-          console.log(firstName);
+          // console.log(firstName);
           console.log("change linkage success");
         }
       }
@@ -68,19 +78,17 @@ const changeLinkage = async (req, res) => {
   } catch (error) {}
 };
 
-// delete the linkage 
+// delete the linkage
 const deleteLinkage = async (req, res) => {
   try {
     await Linkage.findOneAndRemove(
       { _id: req.body._id },
       (error, deletedRecord) => {
-        // console.log("delete union success");
+        console.log("delete linkage success");
       }
     );
   } catch (error) {}
 };
-
-
 
 module.exports = {
   addLinkage,
