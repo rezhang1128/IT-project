@@ -1,7 +1,7 @@
 const request = require('supertest');
 
 
-const app = require('../app');
+// const app = require('../app');
 describe("getting started with JEST", () => {
     test("this is just a JEST", () => {
         expect(123).toEqual(123);
