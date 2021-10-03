@@ -1,21 +1,24 @@
 const LinkageModel = require("../models/linkageModels");
 const Linkage = LinkageModel.Linkage;
+const Event = LinkageModel.Event;
 const mongoose = require("mongoose");
 let ObjectId = require("mongoose").Types.ObjectId;
 
 //Controller 1
 // the testing controller for creating the first linkage in the database
 const testingAddLinkages = async (req, res) => {
-  var newUser = new Linkage();
-  newUser.userId = new ObjectId("6139e1cd8e40774fd8ac61ba");
-  newUser.firstName = "Alice";
-  newUser.middleName = "InThe";
-  newUser.lastName = "Wonderland";
-  newUser.email = "aliceWonderland@test.com";
-  newUser.address = "address 1, address 2";
+  var newUser = new Event();
+  newUser.name = "Event 2";
+  newUser.userId = new ObjectId("61458edafd0bfd2b4098d34f");
+  newUser.linkages = new ObjectId("614cb9ab139ef2925fbd32bd")
+  // newUser.firstName = "Alice";
+  // newUser.middleName = "InThe";
+  // newUser.lastName = "Wonderland";
+  // newUser.email = "aliceWonderland@test.com";
+  // newUser.address = "address 1, address 2";
   newUser.save();
-  // console.log(newUser);
-  res.send(newUser);
+  console.log(newUser);
+  // res.send(newUser);
 };
 
 // Get all the linkages of the user

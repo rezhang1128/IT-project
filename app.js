@@ -54,6 +54,8 @@ app.get('/',passport.authenticate('jwt', { session: false }), (req,res) => {
 // Routes
 const userRouter = require("./routes/userRouters");
 app.use("/user", userRouter);
+const taskRouter = require("./routes/taskRouters");
+app.use("/task", taskRouter);
 const linkageRouter = require("./routes/linkageRouters");
 app.use("/linkage", linkageRouter);
 const unionRouter = require("./routes/unionRouters");

@@ -24,6 +24,7 @@ const LinkageSchema = new mongoose.Schema(
 
 const EventSchema = new mongoose.Schema(
   {
+    userId: { type: mongoose.Schema.Types.ObjectId, required: true },
     name: { type: String, required: true },
     dateTime: { type: Date, required: true, default: Date.now },
     linkages: { type: mongoose.Schema.Types.ObjectId, required: true },
