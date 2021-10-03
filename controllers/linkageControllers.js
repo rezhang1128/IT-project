@@ -3,6 +3,7 @@ const Linkage = LinkageModel.Linkage;
 const Event = LinkageModel.Event;
 const mongoose = require("mongoose");
 let ObjectId = require("mongoose").Types.ObjectId;
+const fs = require("fs");
 
 //Controller 1
 // the testing controller for creating the first linkage in the database
@@ -39,6 +40,11 @@ const addLinkage = async (req, res) => {
   newUser.address = req.body.address;
   newUser.phoneNumber = req.body.phoneNumber;
   newUser.note = req.body.note;
+  if (req.file) {
+    newUser.profilePic = req.file.path;
+  } else {
+    newUser.profilePic = "uploads/LinkageLogo.png";
+  }
   newUser.save();
   // console.log(newUser);
   res.send(newUser);
@@ -60,6 +66,23 @@ const changeUnion = async (req, res) => {
 
 const changeLinkage = async (req, res) => {
   try {
+    linkage = await Linkage.findOne({_id: req.body._id });
+    linkage_pic = linkage.profilePic;
+    profilePic = "";
+    if (req.file) {
+      profilePic = req.file.path;
+      if (linkage_pic != "uploads/LinkageLogo.png") {
+        try {
+          fs.unlinkSync(linkage_pic);
+          //file removed
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    } else {
+      profilePic = linkage_pic;
+    }
+   
     await Linkage.findOneAndUpdate(
       { _id: req.body._id },
       {
@@ -70,6 +93,7 @@ const changeLinkage = async (req, res) => {
         address: req.body.address,
         note: req.body.note,
         phoneNumber: req.body.phoneNumber,
+        profilePic: profilePic,
       },
       (error, data) => {
         if (!error) {
@@ -90,6 +114,14 @@ const deleteLinkage = async (req, res) => {
         console.log("delete linkage success");
       }
     );
+    if (req.body.profilePic != "uploads/LinkageLogo.png") {
+      try {
+        fs.unlinkSync(req.body.profilePic);
+        //file removed
+      } catch (err) {
+        console.error(err);
+      }
+    }
   } catch (error) {}
 };
 

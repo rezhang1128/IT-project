@@ -71,7 +71,7 @@ const changeUnion = async (req, res) => {
 // delete a union
 const deleteUnion = async (req, res) => {
   try {
-    console.log("req.body.profilePic = " + req.body.profilePic);
+    // console.log("req.body.profilePic = " + req.body.profilePic);
     await Union.findOneAndRemove(
       { _id: req.body._id },
       (error, deletedRecord) => {

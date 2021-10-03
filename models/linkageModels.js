@@ -15,8 +15,9 @@ const LinkageSchema = new mongoose.Schema(
     note: { type: String, required: false },
     events: { type: [mongoose.Schema.Types.ObjectId], required: false },
     profilePic: {
-      data: Buffer,
-      contentType: String,
+      type: String,
+      required: true,
+      default: "uploads/UnionLogo.png",
     },
   },
   { versionKey: false }
