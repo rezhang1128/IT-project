@@ -29,6 +29,13 @@ const getAllLinkage = async (req, res) => {
   res.json(linkages);
 };
 
+// Get all the events of the user
+const getAllEvent = async (req, res) => {
+  let events = await Event.find({ userId: req.user._id }).lean();
+  // console.log("linkages = " + linkages);
+  res.json(events);
+};
+
 // add the linkage into database
 const addLinkage = async (req, res) => {
   var newUser = new Linkage();
@@ -131,4 +138,5 @@ module.exports = {
   deleteLinkage,
   testingAddLinkages,
   getAllLinkage,
+  getAllEvent,
 };
