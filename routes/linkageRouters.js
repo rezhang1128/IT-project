@@ -66,5 +66,8 @@ router.get("/", passport.authenticate("jwt", { session: false }), (req, res) =>
 router.get("/event", passport.authenticate("jwt", { session: false }), (req, res) =>
   linkageController.getAllEvent(req, res)
 );
+router.get("/event/pending", passport.authenticate("jwt", { session: false }), (req, res) =>
+  linkageController.getAllPendingEvent(req, res)
+);
 
 module.exports = router;

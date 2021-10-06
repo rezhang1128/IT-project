@@ -13,7 +13,9 @@ router.get("/testing/addTask", taskController.testingAddTask);
 router.get("/", passport.authenticate("jwt", { session: false }), (req, res) =>
   taskController.getAllTask(req, res)
 );
-
+router.get("/pending", passport.authenticate("jwt", { session: false }), (req, res) =>
+  taskController.getAllPendingTask(req, res)
+);
 
 
 module.exports = router;

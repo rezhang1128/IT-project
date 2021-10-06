@@ -19,8 +19,14 @@ const getAllTask = async (req, res) => {
   // console.log("linkages = " + linkages);
   res.json(tasks);
 }
+const getAllPendingTask = async (req, res) => {
+  let tasks = await Task.find({ userId: req.user._id, status: "pending" }).lean();
+  // console.log("linkages = " + linkages);
+  res.json(tasks);
+}
 
 module.exports = {
     testingAddTask,
     getAllTask,
+    getAllPendingTask,
 };

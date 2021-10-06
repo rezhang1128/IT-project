@@ -36,6 +36,12 @@ const getAllEvent = async (req, res) => {
   res.json(events);
 };
 
+const getAllPendingEvent = async (req, res) => {
+  let events = await Event.find({ userId: req.user._id, status: "pending" }).lean();
+  // console.log("linkages = " + linkages);
+  res.json(events);
+};
+
 // add the linkage into database
 const addLinkage = async (req, res) => {
   var newUser = new Linkage();
@@ -139,4 +145,5 @@ module.exports = {
   testingAddLinkages,
   getAllLinkage,
   getAllEvent,
+  getAllPendingEvent,
 };
