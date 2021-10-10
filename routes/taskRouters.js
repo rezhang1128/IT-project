@@ -16,6 +16,20 @@ router.get("/", passport.authenticate("jwt", { session: false }), (req, res) =>
 router.get("/pending", passport.authenticate("jwt", { session: false }), (req, res) =>
   taskController.getAllPendingTask(req, res)
 );
-
+router.get("/past", passport.authenticate("jwt", { session: false }), (req, res) =>
+  taskController.getAllPastTask(req, res)
+);
+router.post("/",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => taskController.addTask(req, res)
+);
+router.post("/edit",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => taskController.changeTask(req, res)
+);
+router.post("/delete",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => taskController.deleteTask(req, res)
+);
 
 module.exports = router;
