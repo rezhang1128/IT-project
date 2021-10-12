@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const linkageController = require("../controllers/linkageControllers.js");
 const passport = require("passport");
-require("../config/passport")(passport); 
+require("../config/passport")(passport);
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
 
@@ -45,7 +45,8 @@ router.get("/testing/addLinkages", linkageController.testingAddLinkages);
 
 router.post(
   "/:linkageID/change",
-  passport.authenticate("jwt", { session: false }), upload.single("linkageImage"),
+  passport.authenticate("jwt", { session: false }),
+  upload.single("linkageImage"),
   (req, res) => linkageController.changeLinkage(req, res)
 );
 
@@ -55,19 +56,32 @@ router.post(
   (req, res) => linkageController.deleteLinkage(req, res)
 );
 
-router.post("/", passport.authenticate("jwt", { session: false }), upload.single("linkageImage"), (req, res) =>
-  linkageController.addLinkage(req, res)
+router.post(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  upload.single("linkageImage"),
+  (req, res) => linkageController.addLinkage(req, res)
 );
 
 router.get("/", passport.authenticate("jwt", { session: false }), (req, res) =>
   linkageController.getAllLinkage(req, res)
 );
 
-router.get("/event", passport.authenticate("jwt", { session: false }), (req, res) =>
-  linkageController.getAllEvent(req, res)
+router.post(
+  "/:linkageID/createEvent",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => linkageController.addEvent(req, res)
 );
-router.get("/event/pending", passport.authenticate("jwt", { session: false }), (req, res) =>
-  linkageController.getAllPendingEvent(req, res)
+
+router.get(
+  "/event",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => linkageController.getAllEvent(req, res)
+);
+router.get(
+  "/event/pending",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => linkageController.getAllPendingEvent(req, res)
 );
 
 module.exports = router;

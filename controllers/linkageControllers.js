@@ -11,7 +11,7 @@ const testingAddLinkages = async (req, res) => {
   var newUser = new Event();
   newUser.name = "Event 2";
   newUser.userId = new ObjectId("61458edafd0bfd2b4098d34f");
-  newUser.linkages = new ObjectId("614cb9ab139ef2925fbd32bd")
+  newUser.linkages = new ObjectId("614cb9ab139ef2925fbd32bd");
   // newUser.firstName = "Alice";
   // newUser.middleName = "InThe";
   // newUser.lastName = "Wonderland";
@@ -37,7 +37,10 @@ const getAllEvent = async (req, res) => {
 };
 
 const getAllPendingEvent = async (req, res) => {
-  let events = await Event.find({ userId: req.user._id, status: "pending" }).lean();
+  let events = await Event.find({
+    userId: req.user._id,
+    status: "pending",
+  }).lean();
   // console.log("linkages = " + linkages);
   res.json(events);
 };
@@ -79,7 +82,7 @@ const changeUnion = async (req, res) => {
 
 const changeLinkage = async (req, res) => {
   try {
-    linkage = await Linkage.findOne({_id: req.body._id });
+    linkage = await Linkage.findOne({ _id: req.body._id });
     linkage_pic = linkage.profilePic;
     profilePic = "";
     if (req.file) {
@@ -95,7 +98,7 @@ const changeLinkage = async (req, res) => {
     } else {
       profilePic = linkage_pic;
     }
-   
+
     await Linkage.findOneAndUpdate(
       { _id: req.body._id },
       {
@@ -138,6 +141,23 @@ const deleteLinkage = async (req, res) => {
   } catch (error) {}
 };
 
+const addEvent = async (req, res) => {
+  var newUser = new Event();
+  newUser.userId = new ObjectId(`${req.user._id}`);
+  newUser.linkages = req.body.linkages;
+  newUser.name = req.body.name;
+  newUser.StartTime = req.body.StartTime;
+  newUser.EndTime = req.body.EndTime;
+  newUser.recurring = req.body.recurring;
+  newUser.status = req.body.status;
+  try {
+    newUser.save();
+    res.send(newUser);
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
 module.exports = {
   addLinkage,
   changeLinkage,
@@ -146,4 +166,5 @@ module.exports = {
   getAllLinkage,
   getAllEvent,
   getAllPendingEvent,
+  addEvent,
 };
