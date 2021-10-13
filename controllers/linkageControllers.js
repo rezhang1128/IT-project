@@ -141,6 +141,7 @@ const deleteLinkage = async (req, res) => {
   } catch (error) {}
 };
 
+// Handling Event
 const addEvent = async (req, res) => {
   var newUser = new Event();
   newUser.userId = new ObjectId(`${req.user._id}`);
@@ -158,6 +159,37 @@ const addEvent = async (req, res) => {
   }
 };
 
+const changeEvent = async (req, res) => {
+  try {
+    await Event.findOneAndUpdate(
+      { _id: req.body._id },
+      {
+        name: req.body.name,
+        StartTime: req.body.StartTime,
+        EndTime: req.body.EndTime,
+        recurring: req.body.recurring,
+      },
+      (error) => {
+        if (!error) {
+          // console.log(firstName);
+          console.log("change Event success");
+        }
+      }
+    );
+  } catch (error) {}
+};
+const deleteEvent = async (req, res) => {
+  console.log("linakges is:" + req.body.linkages);
+  try {
+    await Event.findOneAndRemove(
+      { linkages: req.body.linkages },
+      (error, deletedRecord) => {
+        console.log("delete event success");
+      }
+    );
+  } catch (error) {}
+};
+
 module.exports = {
   addLinkage,
   changeLinkage,
@@ -167,4 +199,6 @@ module.exports = {
   getAllEvent,
   getAllPendingEvent,
   addEvent,
+  changeEvent,
+  deleteEvent,
 };

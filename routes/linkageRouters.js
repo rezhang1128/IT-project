@@ -73,6 +73,12 @@ router.post(
   (req, res) => linkageController.addEvent(req, res)
 );
 
+router.post(
+  "/:linkageID/changeEvent",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => linkageController.changeEvent(req, res)
+);
+
 router.get(
   "/event",
   passport.authenticate("jwt", { session: false }),
@@ -82,6 +88,12 @@ router.get(
   "/event/pending",
   passport.authenticate("jwt", { session: false }),
   (req, res) => linkageController.getAllPendingEvent(req, res)
+);
+
+router.post(
+  "/:linkageID/removeEvent",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => linkageController.deleteEvent(req, res)
 );
 
 module.exports = router;
