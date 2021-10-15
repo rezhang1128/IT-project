@@ -116,6 +116,12 @@ router.post("/register", async (req, res, next) => {
   })(req, res, next);
 });
 
+router.post(
+  "/profile/change",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => userController.changeProfile(req, res)
+);
+
 //Get User Profile
 router.get(
   "/profile",

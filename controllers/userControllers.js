@@ -23,9 +23,33 @@ const getUserProfile = async (req, res) => {
   res.json(userProfile);
 };
 
+const changeProfile = async (req, res) => {
+  try {
+
+    await User.findOneAndUpdate(
+      { _id: req.body._id },
+      {
+        firstName: req.body.firstName,
+        middleName: req.body.middleName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        address: req.body.address,
+        phoneNumber: req.body.phoneNumber,
+      },
+      (error, data) => {
+        if (!error) {
+          // console.log(firstName);
+          console.log("change Profile success");
+        }
+      }
+    );
+  } catch (error) {}
+};
+
 
 module.exports = {
   // testingAddUsers,
   //   getUser,
+  changeProfile,
   getUserProfile,
 };
