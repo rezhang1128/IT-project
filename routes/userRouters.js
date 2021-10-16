@@ -122,6 +122,12 @@ router.post(
   (req, res) => userController.changeProfile(req, res)
 );
 
+router.post(
+  "/password",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => userController.changePassword(req, res)
+);
+
 //Get User Profile
 router.get(
   "/profile",

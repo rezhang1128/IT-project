@@ -1,5 +1,6 @@
 const UserModel = require("../models/userModels");
 const User = UserModel.User;
+const bcrypt = require("bcrypt-nodejs");
 
 //Controller 2
 // const getUser = async (req, res) => {
@@ -27,10 +28,9 @@ const changeProfile = async (req, res) => {
   try {
 
     await User.findOneAndUpdate(
-      { _id: req.body._id },
+      { _id: req.user._id },
       {
         firstName: req.body.firstName,
-        middleName: req.body.middleName,
         lastName: req.body.lastName,
         email: req.body.email,
         address: req.body.address,
@@ -46,10 +46,41 @@ const changeProfile = async (req, res) => {
   } catch (error) {}
 };
 
+const changePassword = async (req, res) => {
+
+  generateHash = function(password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
+  };
+
+  try {
+
+    // generateHash = function(password) {
+    //   return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
+    //   };
+
+    await User.findOneAndUpdate(
+      { _id: req.user._id },
+      {
+        password: generateHash(req.body.password),
+        
+      },
+      (error, data) => {
+        
+        if (error) {
+          
+          console.log(error.message);
+        }
+        
+      }
+    );
+  } catch (error) {}
+};
+
 
 module.exports = {
   // testingAddUsers,
   //   getUser,
   changeProfile,
   getUserProfile,
+  changePassword,
 };
