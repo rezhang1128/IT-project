@@ -1,31 +1,32 @@
 const UserModel = require("../models/userModels");
 const User = UserModel.User;
 const bcrypt = require("bcrypt-nodejs");
-
-//Controller 2
-// const getUser = async (req, res) => {
-//   try {
-//     user = await User.findOne(
-//       { _id: req.params.id },
-//       { firstName: true, lastName: true }
-//     );
-//     console.log(req.params);
-//     res.json(user);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+const fs = require("fs");
 
 //Get User Name
 const getUserProfile = async (req, res) => {
   let userProfile = await User.find({ _id: req.user._id }).lean();
-  //   console.log("userProfile = " + userProfile);
-  // console.log("userProfile = ",JSON.stringify(userProfile));
   res.json(userProfile);
 };
 
 const changeProfile = async (req, res) => {
   try {
+    linkage = await User.findOne({ _id: req.user._id });
+    linkage_pic = linkage.profilePic;
+    profilePic = "";
+    if (req.file) {
+      profilePic = req.file.path;
+      if (linkage_pic != "") {
+        try {
+          fs.unlinkSync(linkage_pic);
+          //file removed
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    } else {
+      profilePic = linkage_pic;
+    }
 
     await User.findOneAndUpdate(
       { _id: req.user._id },
@@ -35,6 +36,7 @@ const changeProfile = async (req, res) => {
         email: req.body.email,
         address: req.body.address,
         phoneNumber: req.body.phoneNumber,
+        profilePic: profilePic,
       },
       (error, data) => {
         if (!error) {

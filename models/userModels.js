@@ -11,8 +11,9 @@ const UsersSchema = new mongoose.Schema({
   address: { type: String },
   phoneNo: { type: String, required: true },
   profilePic: {
-    data: Buffer,
-    contentType: String,
+    type: String,
+    required: false,
+    default: "",
   },
 });
 // // the method to generate hash password for new customer

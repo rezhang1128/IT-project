@@ -5,24 +5,47 @@ const userController = require("../controllers/userControllers.js");
 require("dotenv").config(); // for JWT password key
 const jwt = require("jsonwebtoken");
 const { deserializeUser } = require("passport");
+const multer = require("multer");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./uploads");
+  },
+  filename: function (req, file, cb) {
+    cb(
+      null,
+      new Date().toISOString().replace(/:/g, "-") +
+        file.fieldname +
+        file.originalname
+    );
+  },
+});
+
+const fileFilter = (req, file, cb) => {
+  //reject File that are not png, jpeg
+  if (
+    file.mimetype === "image/jpeg" ||
+    file.mimetype === "image/png" ||
+    file.mimetype === "image/jpg"
+  ) {
+    cb(null, true);
+  } else {
+    cb(new Error("invalid image type"), false);
+  }
+};
+
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 1024 * 1024 * 5,
+  },
+  fileFilter: fileFilter,
+});
 
 const passport = require("passport");
 require("../config/passport")(passport);
 
-// router.get("/testing/addUser", userController.testingAddUsers);
-// router.post("register", (req,res) => userController.testingRegister(req,res));
-
-// router.get("/:id", (req, res) => userController.getUser(req, res));
-
-// POST login -- we are using JWT
-// POST --> http://localhost:5000/user/login
 router.post("/login", async (req, res, next) => {
-  // passport.authenticate is provided by passport to authenticate
-  // users
-  // 'login' is the name of strategy that we have defined in the
-  // passport.js file in the config folder
-  // user and info should be passed by the 'login' strategy
-  // to passport.authenticate -- see the code for the strategy
   passport.authenticate("login", async (err, user, info) => {
     try {
       // if there were errors during executing the strategy
@@ -33,7 +56,6 @@ router.post("/login", async (req, res, next) => {
 
         return next(error);
       }
-
       // otherwise, we use the req.login to store the user details
       // in the session. By setting session to false, we are essentially
       // asking the client to give us the token with each request
@@ -64,39 +86,18 @@ router.post("/login", async (req, res, next) => {
   })(req, res, next);
 });
 
-// router.post('/register', async (req, res) => {
-//     console.log(`post/${util.inspect(req.body,false,null)}`);
 
-// })
 router.post("/register", async (req, res, next) => {
-  // passport.authenticate is provided by passport to authenticate
-  // users
-  // 'login' is the name of strategy that we have defined in the
-  // passport.js file in the config folder
-  // user and info should be passed by the 'login' strategy
-  // to passport.authenticate -- see the code for the strategy
   passport.authenticate("register", async (err, user, info) => {
     try {
-      // if there were errors during executing the strategy
-      // or the user was not found, we display and error
-      // console.log("user = "+ user)
       if (err || !user) {
         const error = new Error("An Error occurred");
 
         return next(error);
       }
-
-      // otherwise, we use the req.login to store the user details
-      // in the session. By setting session to false, we are essentially
-      // asking the client to give us the token with each request
       req.login(user, { session: false }, async (error) => {
         if (error) return next(error);
-
-        // We don't want to store sensitive information such as the
-        // user password in the token so we pick only the user's email
         const body = { _id: user._id };
-
-        //Sign the JWT token and populate the payload with the user email
         const token = jwt.sign({ body }, process.env.PASSPORT_KEY);
 
         //Send back the token to the client
@@ -119,6 +120,7 @@ router.post("/register", async (req, res, next) => {
 router.post(
   "/profile/change",
   passport.authenticate("jwt", { session: false }),
+  upload.single("profilePic"),
   (req, res) => userController.changeProfile(req, res)
 );
 
