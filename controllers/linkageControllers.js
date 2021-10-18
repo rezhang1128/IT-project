@@ -47,7 +47,6 @@ const getAllPendingEvent = async (req, res) => {
 
 // add the linkage into database
 const addLinkage = async (req, res) => {
-  console.log(req.file.path);
   var newUser = new Linkage();
   newUser.userId = new ObjectId(`${req.user._id}`);
   newUser.firstName = req.body.firstName;
@@ -63,6 +62,7 @@ const addLinkage = async (req, res) => {
     newUser.profilePic = "uploads/LinkageLogo.png";
   }
   newUser.save();
+
   // console.log(newUser);
   res.send(newUser);
 };
