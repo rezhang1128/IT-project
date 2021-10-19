@@ -35,7 +35,7 @@ const changeProfile = async (req, res) => {
         lastName: req.body.lastName,
         email: req.body.email,
         address: req.body.address,
-        phoneNumber: req.body.phoneNumber,
+        phoneNo: req.body.phoneNo,
         profilePic: profilePic,
       },
       (error, data) => {
