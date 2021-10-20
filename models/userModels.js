@@ -13,7 +13,7 @@ const UsersSchema = new mongoose.Schema({
   profilePic: {
     type: String,
     required: false,
-    default: "",
+    default: "uploads/UserLogo.png",
   },
 });
 // // the method to generate hash password for new customer
