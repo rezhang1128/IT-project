@@ -58,9 +58,14 @@ const changeTask = async (req, res) => {
         if (!error) {
           // console.log("change union success");
         }
+        else{
+          console.log("edittask 1 error = ",error)
+        }
       }
     );
-  } catch (error) {}
+  } catch (error) {
+    console.log("edittask error = ",error)
+  }
 };
 
 const deleteTask = async (req, res) => {
