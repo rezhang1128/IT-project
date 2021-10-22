@@ -60,6 +60,7 @@ router.post(
 router.post(
   "/:unionID/change",
   passport.authenticate("jwt", { session: false }),
+  upload.single("unionImage"),
   (req, res) => unionController.changeUnion(req, res)
 );
 

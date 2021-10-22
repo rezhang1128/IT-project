@@ -20,7 +20,7 @@ const testingAddUnion = async (req, res) => {
 // add union into database
 const AddUnion = async (req, res) => {
   var newUser = new Union();
-  console.log("unionImage = ,", req.file);
+ 
   newUser.userId = new ObjectId(`${req.user._id}`);
   newUser.name = req.body.name;
   newUser.linkages = [];
@@ -55,23 +55,50 @@ const getAllUnion = async (req, res) => {
 
 // update union information
 const changeUnion = async (req, res) => {
+
   try {
+    union = await Union.findOne({_id: req.body._id });
+    union_pic = union.profilePic;
+    profilePic = "";
+    if (req.file) {
+      profilePic = req.file.path;
+      if (union_pic != "uploads/UnionLogo.png") {
+        try {
+          fs.unlinkSync(union_pic);
+          //file removed
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    } else {
+      profilePic = union_pic;
+    }
+
+    let temp = req.body.linkages.split(",");
+    if(temp[0] == ''){
+      temp = [];
+    }
+   
     await Union.findOneAndUpdate(
       { _id: req.body._id },
-      { name: req.body.name, linkages: req.body.linkages },
+      { name: req.body.name, linkages: temp, profilePic: profilePic},
+
       (error, data) => {
-        if (!error) {
-          // console.log("change union success");
+        
+        if (error) {
+          console.log(error.message);
         }
       }
     );
-  } catch (error) {}
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 // delete a union
 const deleteUnion = async (req, res) => {
   try {
-    console.log("req.body.profilePic = " + req.body.profilePic);
+    // console.log("req.body.profilePic = " + req.body.profilePic);
     await Union.findOneAndRemove(
       { _id: req.body._id },
       (error, deletedRecord) => {
