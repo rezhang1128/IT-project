@@ -65,6 +65,9 @@ https://www.figma.com/team_invite/redeem/sNV8cJSTNEw51xPJtp2Qps
 Trello: 
 https://trello.com/b/qOTGuTqQ/team
 
+Depoly Link:
+https://gestio-it-project-comp30022.herokuapp.com/
+
 <br /><br /><br />
 <a name = "system_requirement"></a>
 ## 4.0 System Requirement 
