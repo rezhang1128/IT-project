@@ -6,6 +6,14 @@ require("dotenv").config(); // for JWT password key
 const jwt = require("jsonwebtoken");
 const { deserializeUser } = require("passport");
 const multer = require("multer");
+if (!process.env.PORT){
+  Base_URL = "https://localhost:5000";
+}
+else{
+  Base_URL = "https://gestioitproject.herokuapp.com/";
+}
+// Base_URL = "https://gestioitproject.herokuapp.com/";
+// Base_URL = "https://localhost:5000";
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -76,7 +84,9 @@ router.post("/login", async (req, res, next) => {
           httpOnly: false,
           sameSite: false,
           secure: true,
-          domain: "https://gestioitproject.herokuapp.com/",
+          // domain: "https://gestioitproject.herokuapp.com/",
+          domain: Base_URL,
+
         });
         return res.json(token);
       });
@@ -107,7 +117,7 @@ router.post("/register", async (req, res, next) => {
           httpOnly: false,
           sameSite: false,
           secure: true,
-          domain: "https://gestioitproject.herokuapp.com/",
+          domain:  Base_URL,
         });
         return res.json(token);
       });
