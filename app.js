@@ -20,7 +20,7 @@ require('./config/passport')(passport);
 // IMPORTANT to enable CORS -- see  Week 7 lectures
 app.use(cors({
 credentials: true, // from Express docs: adds the Access-Control-Allow-Credentials CORS header
-origin: "http://localhost:3000" 
+origin: "https://gestio-it-project-comp30022.herokuapp.com/" 
 }));
 
 

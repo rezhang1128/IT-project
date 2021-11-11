@@ -76,7 +76,7 @@ router.post("/login", async (req, res, next) => {
           httpOnly: false,
           sameSite: false,
           secure: true,
-          domain: "http://localhost:5000",
+          domain: "https://gestioitproject.herokuapp.com/",
         });
         return res.json(token);
       });
@@ -107,7 +107,7 @@ router.post("/register", async (req, res, next) => {
           httpOnly: false,
           sameSite: false,
           secure: true,
-          domain: "http://localhost:5000",
+          domain: "https://gestioitproject.herokuapp.com/",
         });
         return res.json(token);
       });
